@@ -125,7 +125,9 @@ function ModalExampleMultiple(props: any) {
                         <Button
                             icon='check'
                             content='All Done'
-                            onClick={() => setSecondOpen(false)}
+                            onClick={() => {
+                            setSecondOpen(false)
+                            setFirstOpen(false)}}
                         />
                     </Modal.Actions>
                 </Modal>

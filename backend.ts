@@ -28,7 +28,7 @@ app.post('/sendMail', function (req, res) {
         from: user,
         to: req.body.email,
         subject: 'Purchase information',
-        text: req.body.email + ' ' + req.body.name + ' ' + req.body.phone
+        text: req.body.email + ' ' + req.body.name + ' ' + req.body.phone + ' ' + req.body.item
     };
 
 
