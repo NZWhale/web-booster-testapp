@@ -1,6 +1,6 @@
 import axios from 'axios';
 import * as React from 'react';
-import { Button, Card, Form, Icon, Image, Input, Item, Modal} from 'semantic-ui-react';
+import { Button, Card, Form, Icon, Image, Input, Item, Modal } from 'semantic-ui-react';
 // import { sendDataByEmail } from './backend';
 
 interface ItemCardProps {
@@ -40,6 +40,25 @@ function ModalExampleMultiple(props: any) {
         item: props.props.name + ", " + props.props.price + " рублей"
     }
 
+
+    function inputFieldsValidate(name: string, phone: string, email: string, item: string) {
+        if (name) {
+            if (phone) {
+                if (email) {
+                    if (item) {
+                        return true
+                    }
+                } else {
+                    alert("Please enter a valid email address")
+                }
+            } else {
+                alert("Please enter your phone number")
+            }
+        } else {
+            alert("Please enter your name")
+        }
+    }
+
     async function handleSubmit(name: string, phone: string, email: string, item: string) {
         const response = await axios.post('http://localhost:3001/sendMail', {
             name: name,
@@ -72,7 +91,7 @@ function ModalExampleMultiple(props: any) {
                                     onChange={(e: any) => state.name = e.target.value}
                                 />
                             </Form.Group>
-                            
+
                             <Form.Field
                                 id='form-input-control-phone'
                                 control={Input}
@@ -100,14 +119,17 @@ function ModalExampleMultiple(props: any) {
                     <Button color="red" onClick={() => {
                         // console.log(state)
                         setFirstOpen(false)
-                        }} colored>
+                    }} colored>
                         Cancel
                     </Button>
                     <Button onClick={() => {
-                        setSecondOpen(true)
                         console.log(state)
+                        const validateResult = inputFieldsValidate(state.name, state.phone, state.email, state.item)
+                        if(validateResult){
                         handleSubmit(state.name, state.phone, state.email, state.item)
-                        }} primary>
+                        setSecondOpen(true)
+                        }
+                    }} primary>
                         Proceed <Icon name='chevron right' />
                     </Button>
                 </Modal.Actions>
@@ -126,8 +148,9 @@ function ModalExampleMultiple(props: any) {
                             icon='check'
                             content='All Done'
                             onClick={() => {
-                            setSecondOpen(false)
-                            setFirstOpen(false)}}
+                                setSecondOpen(false)
+                                setFirstOpen(false)
+                            }}
                         />
                     </Modal.Actions>
                 </Modal>
